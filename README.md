@@ -25,7 +25,7 @@ Nothing as of yet.
 
 ## Authors
 
-* **Dionne Pasion** - *Initial work* - [UE4_Battle_Tank](https://github.com/ItzProxy)
+* **Dionne Pasion** - *Initial work* - [My Github](https://github.com/ItzProxy)
 
 ## License
 
