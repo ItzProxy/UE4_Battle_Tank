@@ -1,0 +1,6 @@
+Forward				A			Left Stick forward or 'W'		Both Tracks Forward - Same Speed (100%)
+Backwards/Braking		B			Left Stick backwards or 'S'		Both Tracks Forward - Reduced Speed (75% Normal)
+Speed up			Right Bumper		'F'					Increases Speed by 25-50% -Reduces boost % by %/s
+Turn				Left Analog		Left Stick to Left/Right		One track backwards, Other track forwards - Same Speed
+Aim(Turn/Elevate)		N/A			Right Stick (Analog) or Mouse		Turn cannon part (should be 1-1 to position of mouse/right analog stick)
+Fire 				RT			Mouse Right Click			Fire
