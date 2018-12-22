@@ -24,6 +24,8 @@ private:
 		float CrossHairX = 0.5f;
 	UPROPERTY(EditAnywhere)
 		float CrossHairY = 0.33f;
+	UPROPERTY(EditAnywhere)
+		float LineTraceDistance = 10000.0f;
 
 
 public:
@@ -31,7 +33,7 @@ public:
 	void Tick(float DeltaTime) override;
 	ATank* GetControlledBattleTank() const;
 	void AimTowardsCrosshair();
-	bool GetSightRayHitLocation(FVector& HitLocation);
-	bool LookDirection(const FVector& ScreenSize, FVector &WDir);
-	void GetViewportSize(int32&, int32&);
+	bool GetSightRayHitLocation(FVector& HitLocation) const;
+	bool GetLookDirection(const FVector2D& ScreenLocation, FVector &WDir) const;
+	bool GetLookVectorHitLocation(FVector LookDir, FVector& HitLocation) const;
 };

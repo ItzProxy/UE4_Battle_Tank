@@ -18,12 +18,16 @@ UCLASS()
 class BATTLETANK_API ABattleTankAIController : public AAIController
 {
 private:
-	typedef AActor ActorSuper;
 	GENERATED_BODY()
+
+	typedef AActor ActorSuper;
+	ATank* GetControlledBattleTank() const;
+	ATank* GetPlayerTank() const;
+	void AimTowardsPlayer() const;
+
 public:
 	void BeginPlay() override;
 	void Tick(float delta) override;
-	ATank* GetControlledBattleTank() const;
-	ATank* GetPlayerTank() const;
+
 
 };
