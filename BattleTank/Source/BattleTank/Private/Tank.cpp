@@ -12,7 +12,12 @@ ATank::ATank()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->AimAt(HitLocation);
+	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
+}
+
+void ATank::SetCannonReference(UStaticMeshComponent * CannonToSet)
+{
+	TankAimingComponent->SetCannonReference(CannonToSet);
 }
 
 // Called when the game starts or when spawned

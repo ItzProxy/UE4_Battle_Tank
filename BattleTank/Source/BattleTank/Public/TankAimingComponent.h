@@ -2,6 +2,8 @@
 
 #pragma once
 #include "GameFramework/Actor.h"
+#include "Engine/Classes/Components/StaticMeshComponent.h"
+#include "Engine/Classes/Kismet/GameplayStatics.h"
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -16,7 +18,8 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	void AimAt(FVector& HitLocation);
+	void AimAt(FVector& HitLocation, float LaunchSpeed);
+	void SetCannonReference(UStaticMeshComponent* CannonToSet);
 
 protected:
 	// Called when the game starts
@@ -26,5 +29,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+private:
+	UStaticMeshComponent* Cannon = nullptr;
+
+	void MoveCannonTowardsDirection(FVector AimLocation);
 		
 };
