@@ -38,10 +38,12 @@ void UTankAimingComponent::AimAt(FVector & HitLocation, float LaunchSpeed)
 	);
 	if(bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); //normalize launch vector
+		/*
 		UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"),
 			*AimDirection.ToString()
 		);
-		//movecannon
+		*/
+		MoveCannonTowardsDirection(AimDirection);
 	}
 
 }
@@ -49,6 +51,10 @@ void UTankAimingComponent::AimAt(FVector & HitLocation, float LaunchSpeed)
 void UTankAimingComponent::SetCannonReference(UStaticMeshComponent * CannonToSet)
 {
 	Cannon = CannonToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UStaticMeshComponent * TurretToSet)
+{
 }
 
 // Called when the game starts
@@ -69,8 +75,12 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::MoveCannonTowardsDirection(FVector AimLocation)
+void UTankAimingComponent::MoveCannonTowardsDirection(FVector AimDirection)
 {
-	
+	//get the difference between current cannon rotation and the aim direction
+	auto CannonRotator = Cannon->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - CannonRotator;
+	UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
 }
 

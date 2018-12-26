@@ -20,6 +20,7 @@ public:
 	UTankAimingComponent();
 	void AimAt(FVector& HitLocation, float LaunchSpeed);
 	void SetCannonReference(UStaticMeshComponent* CannonToSet);
+	void SetTurretReference(UStaticMeshComponent* TurretToSet);
 
 protected:
 	// Called when the game starts
@@ -32,6 +33,6 @@ public:
 private:
 	UStaticMeshComponent* Cannon = nullptr;
 
-	void MoveCannonTowardsDirection(FVector AimLocation);
+	void MoveCannonTowardsDirection(FVector AimDirection);
 		
 };
