@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "TankCannon.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -48,7 +49,7 @@ void UTankAimingComponent::AimAt(FVector & HitLocation, float LaunchSpeed)
 
 }
 
-void UTankAimingComponent::SetCannonReference(UStaticMeshComponent * CannonToSet)
+void UTankAimingComponent::SetCannonReference(UTankCannon * CannonToSet)
 {
 	Cannon = CannonToSet;
 }
@@ -81,6 +82,8 @@ void UTankAimingComponent::MoveCannonTowardsDirection(FVector AimDirection)
 	auto CannonRotator = Cannon->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - CannonRotator;
-	UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
+
+	Cannon->Elevate(5);
 }
 

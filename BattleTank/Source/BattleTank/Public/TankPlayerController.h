@@ -3,7 +3,7 @@
 #pragma once
 #define OUT 
 
-#include "Tank.h"
+
 #include "Engine/World.h"
 #include "Engine/Classes/Kismet/GameplayStatics.h"
 
@@ -11,8 +11,10 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
+
+class ATank;
 /**
- * 
+ *
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController

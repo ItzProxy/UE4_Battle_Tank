@@ -15,7 +15,7 @@ void ATank::AimAt(FVector HitLocation)
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
-void ATank::SetCannonReference(UStaticMeshComponent * CannonToSet)
+void ATank::SetCannonReference(UTankCannon * CannonToSet)
 {
 	TankAimingComponent->SetCannonReference(CannonToSet);
 }

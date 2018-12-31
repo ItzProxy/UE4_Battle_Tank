@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTankAIController.h"
+#include "Tank.h"
 
 void ABattleTankAIController::BeginPlay() {
 	ActorSuper::BeginPlay();

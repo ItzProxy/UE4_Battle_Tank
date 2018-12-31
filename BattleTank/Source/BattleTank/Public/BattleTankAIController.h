@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Tank.h"
+
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
@@ -10,6 +10,8 @@
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "BattleTankAIController.generated.h"
+
+class ATank;
 
 /**
  * 

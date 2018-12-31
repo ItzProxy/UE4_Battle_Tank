@@ -5,11 +5,16 @@
 #include "Engine/Classes/Components/StaticMeshComponent.h"
 #include "Engine/Classes/Kismet/GameplayStatics.h"
 
+
+
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+//foward declaration
+class UTankCannon;
 
+//Aiming Component for the turret
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
@@ -19,7 +24,7 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FVector& HitLocation, float LaunchSpeed);
-	void SetCannonReference(UStaticMeshComponent* CannonToSet);
+	void SetCannonReference(UTankCannon* CannonToSet);
 	void SetTurretReference(UStaticMeshComponent* TurretToSet);
 
 protected:
@@ -31,7 +36,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UStaticMeshComponent* Cannon = nullptr;
+	UTankCannon* Cannon = nullptr;
 
 	void MoveCannonTowardsDirection(FVector AimDirection);
 		
