@@ -27,7 +27,7 @@ private:
 	UPROPERTY(EditAnywhere)
 		float CrossHairY = 0.33f;
 	UPROPERTY(EditAnywhere)
-		float LineTraceDistance = 10000.0f;
+		float LineTraceDistance = 1000000;
 
 
 public:
