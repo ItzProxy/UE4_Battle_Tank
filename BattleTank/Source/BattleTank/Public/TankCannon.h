@@ -15,13 +15,12 @@ class BATTLETANK_API UTankCannon : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
-	void Elevate(float DegreesPerSecond);
+	void Elevate(float RelativeSpeed);
 
 private:
-	UPROPERTY(EditAnywhere)
-		float MaxDegreePerSecond = 20.f; //Max degrees can be per second
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Setup)
+		float MaxDegreePerSecond = 5.f; //Max degrees can be per second
+	UPROPERTY(EditAnywhere, Category = Setup)
 		float MaxElevation = 60.f; //Max degrees can be
-	UPROPERTY(EditAnywhere)
 		float MinElevation = -15.f; //Min degrees can be
 };

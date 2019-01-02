@@ -45,6 +45,12 @@ void UTankAimingComponent::AimAt(FVector & HitLocation, float LaunchSpeed)
 		);
 		*/
 		MoveCannonTowardsDirection(AimDirection);
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution found"), Time);
+	}
+	else {
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution found"), Time);
 	}
 
 }
@@ -82,8 +88,8 @@ void UTankAimingComponent::MoveCannonTowardsDirection(FVector AimDirection)
 	auto CannonRotator = Cannon->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - CannonRotator;
-	//UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
 
-	Cannon->Elevate(5);
+	Cannon->Elevate(DeltaRotator.Pitch);
 }
 
