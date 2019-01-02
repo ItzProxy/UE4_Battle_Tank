@@ -14,7 +14,7 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
-void UTankAimingComponent::AimAt(FVector & HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 
 	//auto CannonLocation = Cannon->GetComponentLocation();
@@ -27,32 +27,41 @@ void UTankAimingComponent::AimAt(FVector & HitLocation, float LaunchSpeed)
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Cannon->GetSocketLocation(FName("ProjectileStartPoint"));
-	
+	//UE_LOG(LogTemp, Warning, TEXT("Projectile Start at %s"), *StartLocation.ToString());
+
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
 	(
 		this,
-		OutLaunchVelocity,
+		OUT OutLaunchVelocity,
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
-		ESuggestProjVelocityTraceOption::DoNotTrace
+		false,
+		0.f,
+		0.f,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(),
+		false
 	);
 	if(bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); //normalize launch vector
-		/*
-		UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"),
-			*AimDirection.ToString()
-		);
-		*/
+		
+		//UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"),
+		//	*AimDirection.ToString()
+		//);
+		
 		MoveCannonTowardsDirection(AimDirection);
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution found"), Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution found"), Time);
 	}
+	/*
 	else {
+		//MoveCannonTowardsDirection(FVector(0));
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution found"), Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution not found"), Time);
 	}
-
+	*/
 }
 
 void UTankAimingComponent::SetCannonReference(UTankCannon * CannonToSet)
@@ -88,7 +97,7 @@ void UTankAimingComponent::MoveCannonTowardsDirection(FVector AimDirection)
 	auto CannonRotator = Cannon->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - CannonRotator;
-	UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
 
 	Cannon->Elevate(DeltaRotator.Pitch);
 }
