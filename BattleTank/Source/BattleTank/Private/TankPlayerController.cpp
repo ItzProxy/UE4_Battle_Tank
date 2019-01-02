@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -17,6 +18,7 @@ void ATankPlayerController::BeginPlay()
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
 }
 
@@ -31,33 +33,50 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; //OUT parameter;
 	if (GetSightRayHitLocation(HitLocation)) {
 		//UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString());
+		GetControlledBattleTank()->AimAt(HitLocation);
 	}
 }
 
-bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation)
+bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 {
 	int32 ViewportSizeX, ViewPortSizeY;
-	FVector WDir;
+	FVector LookDirection;
+	//Get the viewport from the client of the player controlled tank
 	GetViewportSize(ViewportSizeX, ViewPortSizeY);
-	FVector ScreenSize = FVector(ViewportSizeX, ViewPortSizeY,0);
-	HitLocation = FVector(ViewportSizeX*CrossHairX, ViewPortSizeY*CrossHairY, 0.f);
+	FVector2D ScreenLocation = FVector2D(ViewportSizeX * CrossHairX, ViewPortSizeY*CrossHairY);
+	//HitLocation = FVector(ScreenSize.X*CrossHairX, ScreenSize.Y*CrossHairY, 0.f);
 	//De-project
-	if (LookDirection(ScreenSize, WDir)) {
-		UE_LOG(LogTemp, Warning, TEXT("World Direction : %s"), *WDir.ToString());
+
+	if (GetLookDirection(ScreenLocation, LookDirection)) {
+		//UE_LOG(LogTemp, Warning, TEXT("World Direction : %s"), *WDir.ToString());
+		GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 	return true;
 }
 
-bool ATankPlayerController::LookDirection(const FVector & ScreenSize, FVector & WDir)
+bool ATankPlayerController::GetLookDirection(const FVector2D & ScreenLocation, FVector & WDir) const
 {
 	FVector WLoc; //hotpotato
-	return DeprojectScreenPositionToWorld(ScreenSize.X, ScreenSize.Y, WLoc, WDir);
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WLoc, WDir);
 }
 
-void ATankPlayerController::GetViewportSize(int32 & X, int32 & Y)
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDir, FVector & HitLocation) const
 {
-	if (IsLocalController()) {
-		GetViewportSize(OUT X, OUT Y);
+	FHitResult HitResult;
+	auto StartLoc = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLoc + (LookDir * LineTraceDistance);
+
+	if (GetWorld()->LineTraceSingleByChannel(
+		OUT HitResult,
+		StartLoc,
+		EndLocation,
+		ECollisionChannel::ECC_Visibility
+	)) {
+		HitLocation = HitResult.Location;
+		return true;
 	}
+	HitLocation = FVector(0);
+	return false;
 }
+
 

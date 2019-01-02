@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTankAIController.h"
+#include "Tank.h"
 
 void ABattleTankAIController::BeginPlay() {
 	ActorSuper::BeginPlay();
@@ -26,7 +27,7 @@ void ABattleTankAIController::BeginPlay() {
 void ABattleTankAIController::Tick(float delta)
 {
 	Super::Tick(delta);
-	//UE_LOG(LogTemp, Warning, TEXT("Works"));
+	AimTowardsPlayer();
 }
 
 ATank * ABattleTankAIController::GetControlledBattleTank() const
@@ -36,14 +37,16 @@ ATank * ABattleTankAIController::GetControlledBattleTank() const
 
 ATank * ABattleTankAIController::GetPlayerTank() const
 {
-	/*
-	auto APlayerArray = GetWorld()->GetGameState()->PlayerArray;
-	auto AOwner = GetOwner();
-	for (APlayerState* player : APlayerArray) {
-		if(player)
-		UE_LOG(LogTemp, Warning, TEXT("%s found the player controlled: %s"),*AOwner->GetName())
-	}
-	*/
 	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 	return PlayerPawn ? Cast<ATank>(PlayerPawn) : nullptr;
+}
+
+void ABattleTankAIController::AimTowardsPlayer() const
+{
+	FVector HitLocation;
+	if (GetPlayerTank()) {
+		// TODO Move Towards the player
+		GetControlledBattleTank()->AimAt(GetPlayerTank()->GetActorLocation());
+		// TODO Fire at targetted location
+	}
 }
