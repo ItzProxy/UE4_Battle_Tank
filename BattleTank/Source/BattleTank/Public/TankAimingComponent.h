@@ -5,14 +5,13 @@
 #include "Engine/Classes/Components/StaticMeshComponent.h"
 #include "Engine/Classes/Kismet/GameplayStatics.h"
 
-
-
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
 //foward declaration
 class UTankCannon;
+class UTankTurret;
 
 //Aiming Component for the turret
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -25,7 +24,7 @@ public:
 	UTankAimingComponent();
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 	void SetCannonReference(UTankCannon* CannonToSet);
-	void SetTurretReference(UStaticMeshComponent* TurretToSet);
+	void SetTurretReference(UTankTurret* TurretToSet);
 
 protected:
 	// Called when the game starts
@@ -37,6 +36,7 @@ public:
 
 private:
 	UTankCannon* Cannon = nullptr;
+	UTankTurret* Turret = nullptr;
 
 	void MoveCannonTowardsDirection(FVector AimDirection);
 		

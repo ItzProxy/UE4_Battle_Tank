@@ -2,6 +2,9 @@
 
 #include "TankAimingComponent.h"
 #include "TankCannon.h"
+#include "TankTurret.h"
+
+
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -46,22 +49,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	);
 	if(bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); //normalize launch vector
-		
-		//UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"),
-		//	*AimDirection.ToString()
-		//);
-		
 		MoveCannonTowardsDirection(AimDirection);
-		auto Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution found"), Time);
 	}
-	/*
-	else {
-		//MoveCannonTowardsDirection(FVector(0));
-		auto Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f:Aim solution not found"), Time);
-	}
-	*/
 }
 
 void UTankAimingComponent::SetCannonReference(UTankCannon * CannonToSet)
@@ -69,8 +58,9 @@ void UTankAimingComponent::SetCannonReference(UTankCannon * CannonToSet)
 	Cannon = CannonToSet;
 }
 
-void UTankAimingComponent::SetTurretReference(UStaticMeshComponent * TurretToSet)
+void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
 {
+	Turret = TurretToSet;
 }
 
 // Called when the game starts
@@ -100,5 +90,6 @@ void UTankAimingComponent::MoveCannonTowardsDirection(FVector AimDirection)
 	//UE_LOG(LogTemp, Warning, TEXT("Aim as rotator: %s"), *DeltaRotator.ToString());
 
 	Cannon->Elevate(DeltaRotator.Pitch);
+	Turret->RotateTurret(DeltaRotator.Yaw);
 }
 
