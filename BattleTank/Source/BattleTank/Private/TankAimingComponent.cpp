@@ -53,12 +53,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}
 }
 
-void UTankAimingComponent::Fire()
-{
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f:Fire! Pressed"), Time);
-}
-
 void UTankAimingComponent::SetCannonReference(UTankCannon * CannonToSet)
 {
 	Cannon = CannonToSet;
