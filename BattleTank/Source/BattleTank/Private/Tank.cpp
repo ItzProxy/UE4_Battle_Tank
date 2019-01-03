@@ -2,9 +2,6 @@
 
 #include "Tank.h"
 
-//forward declaration
-class UTankCannon;
-class UTankTurret;
 
 // Sets default values
 ATank::ATank()
@@ -21,6 +18,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::SetCannonReference(UTankCannon * CannonToSet)
 {
+	Cannon = CannonToSet; //local reference
 	TankAimingComponent->SetCannonReference(CannonToSet);
 }
 
@@ -31,7 +29,18 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 
 void ATank::Fire()
 {
-	TankAimingComponent->Fire();
+	auto Time = GetWorld()->GetTimeSeconds();
+	//UE_LOG(LogTemp, Warning, TEXT("%f:Fire! Pressed"), Time);
+
+	if (!Cannon) { return; }
+	
+	//Spawn projectile at socket location
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBP,
+		Cannon->GetSocketLocation(FName("ProjectileStartPoint")),
+		Cannon->GetSocketRotation(FName("ProjectileStartPoint"))
+	);
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 // Called when the game starts or when spawned
