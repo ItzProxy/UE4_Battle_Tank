@@ -5,8 +5,8 @@
 
 void ABattleTankAIController::BeginPlay() {
 	ActorSuper::BeginPlay();
-	auto ControlledTank = GetControlledBattleTank();
-	auto PlayerTank = GetPlayerTank();
+	ControlledTank = Cast<ATank>(GetPawn());
+	PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
 	if (!ControlledTank) {
 		UE_LOG(LogTemp, Warning, TEXT("AIcontroller has nothin"));
@@ -30,23 +30,12 @@ void ABattleTankAIController::Tick(float delta)
 	AimTowardsPlayer();
 }
 
-ATank * ABattleTankAIController::GetControlledBattleTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank * ABattleTankAIController::GetPlayerTank() const
-{
-	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	return PlayerPawn ? Cast<ATank>(PlayerPawn) : nullptr;
-}
-
 void ABattleTankAIController::AimTowardsPlayer() const
 {
 	FVector HitLocation;
-	if (GetPlayerTank()) {
-		// TODO Move Towards the player
-		GetControlledBattleTank()->AimAt(GetPlayerTank()->GetActorLocation());
+	if (PlayerTank) {
+		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 		// TODO Fire at targetted location
+		ControlledTank->Fire();
 	}
 }

@@ -3,8 +3,11 @@
 #include "TankTurret.h"
 
 void UTankTurret::RotateTurret(float RelativeSpeed) {
+	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
 	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->GetDeltaSeconds();
+	//auto RawNewYaw = GetComponentTransform().GetRotation().Z +  + RotationChange;
 	auto RawNewYaw = RelativeRotation.Yaw + RotationChange;
-	UE_LOG(LogTemp, Warning, TEXT("curr YAW: %f"), RawNewYaw);
+	//RawNewYaw = FMath::ClampAngle(RawNewYaw, 360, -360);
 	SetRelativeRotation(FRotator(0, RawNewYaw, 0));
+
 }

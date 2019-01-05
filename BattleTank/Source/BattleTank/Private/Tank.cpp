@@ -29,17 +29,25 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 
 void ATank::Fire()
 {
-	auto Time = GetWorld()->GetTimeSeconds();
+	//auto Time = GetWorld()->GetTimeSeconds();
 	//UE_LOG(LogTemp, Warning, TEXT("%f:Fire! Pressed"), Time);
 
 	if (!Cannon) { return; }
-	
+	auto CurrTime = GetWorld()->GetTimeSeconds();
+	if (CurrTime - PrevTime > FireRate) {
+		PrevTime = GetWorld()->GetTimeSeconds();
+		SpawnAndFire();
+	}
+}
+
+void ATank::SpawnAndFire()
+{
 	//Spawn projectile at socket location
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileBP,
 		Cannon->GetSocketLocation(FName("ProjectileStartPoint")),
 		Cannon->GetSocketRotation(FName("ProjectileStartPoint"))
-	);
+		);
 	Projectile->LaunchProjectile(LaunchSpeed);
 }
 

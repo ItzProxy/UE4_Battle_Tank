@@ -23,8 +23,15 @@ class BATTLETANK_API ATank : public APawn
 
 private:
 
+	ATank* ControlledTank  = nullptr;
+	ATank* PlayerTank = nullptr;
+
+	float PrevTime = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+		float FireRate = 0.33f; //starting value of 1000 ms/s
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float LaunchSpeed = 100000; //starting value of 1000 ms/s
+		float LaunchSpeed = 4000; //starting value of 1000 ms/s
 	UPROPERTY(EditAnywhere, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBP;
 
@@ -53,4 +60,5 @@ public:
 		void SetTurretReference(UTankTurret* TurretToSet);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Fire();
+	void SpawnAndFire();
 };

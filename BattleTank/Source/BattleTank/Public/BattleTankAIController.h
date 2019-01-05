@@ -21,10 +21,10 @@ class BATTLETANK_API ABattleTankAIController : public AAIController
 {
 private:
 	GENERATED_BODY()
-
 	typedef AActor ActorSuper;
-	ATank* GetControlledBattleTank() const;
-	ATank* GetPlayerTank() const;
+
+	ATank* PlayerTank = nullptr;
+	ATank* ControlledTank = nullptr;
 	void AimTowardsPlayer() const;
 
 public:
